@@ -7,7 +7,7 @@ venv:
 .PHONY: direct_deps
 direct_deps: venv
 	. ./.venv/bin/activate
-	pip install jupyter numpy pandas matplotlib seaborn torch transformers datasets python-dotenv accelerate protobuf sentencepiece peft
+	pip install jupyter numpy pandas matplotlib seaborn torch transformers datasets python-dotenv accelerate protobuf sentencepiece peft mlflow
 
 # Установка пакетов указанных в `requirements.txt`
 .PHONY: deps
@@ -25,3 +25,9 @@ del_venv:
 freeze:
 	. ./.venv/bin/activate
 	pip freeze > requirements.txt
+
+# Открыть MLFlow логи обучения модели в браузере (http://127.0.0.1:8080)
+.PHONY: ui
+ui:
+	. ./.venv/bin/activate
+	mlflow ui --port 8080

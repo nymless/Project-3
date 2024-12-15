@@ -11,3 +11,4 @@ accelerate
 protobuf
 sentencepiece
 peft
+mlflow
