@@ -1,16 +1,12 @@
 import os
 import sys
 
-import torch
-
 sys.path.append(os.path.abspath(".."))
 
 from validation.Inputs import Inputs
 
 
-def generate(model, tokenizer, inputs: Inputs, max_length=256):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+def generate(model, tokenizer, inputs: Inputs, max_length=256, device='cpu'):
     inputs = Inputs.model_validate(inputs)
 
     prompt = (
@@ -22,7 +18,6 @@ def generate(model, tokenizer, inputs: Inputs, max_length=256):
     )
 
     tokens = tokenizer(prompt, return_tensors="pt").to(device)
-    model = model.eval().to(device)
 
     outputs = model.generate(
         **tokens,
@@ -37,5 +32,9 @@ def generate(model, tokenizer, inputs: Inputs, max_length=256):
     )
 
     # Отбрасываем текст запроса из выхода модели
-    responce = outputs[0][tokens["input_ids"].shape[-1] :]
-    return tokenizer.decode(responce, skip_special_tokens=True)
+    response = outputs[0][tokens["input_ids"].shape[-1] :]
+
+    # Почистим gpu память
+    tokens.to("cpu")
+
+    return tokenizer.decode(response, skip_special_tokens=True)

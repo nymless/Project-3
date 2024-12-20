@@ -12,3 +12,5 @@ protobuf
 sentencepiece
 peft
 mlflow
+streamlit
+pydantic

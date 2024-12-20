@@ -7,7 +7,7 @@ venv:
 .PHONY: direct_deps
 direct_deps: venv
 	. ./.venv/bin/activate
-	pip install jupyter numpy pandas matplotlib seaborn torch transformers datasets python-dotenv accelerate protobuf sentencepiece peft mlflow
+	pip install jupyter numpy pandas matplotlib seaborn torch transformers datasets python-dotenv accelerate protobuf sentencepiece peft mlflow streamlit pydantic
 
 # Установка пакетов указанных в `requirements.txt`
 .PHONY: deps
@@ -31,3 +31,9 @@ freeze:
 ui:
 	. ./.venv/bin/activate
 	mlflow ui --port 8080
+
+# Запуск Streamlit приложения локально
+.PHONY: run
+run:
+	. ./.venv/bin/activate
+	streamlit run ./app/app.py
